@@ -13,10 +13,15 @@ $(function () {
       let tdCategory = $("<td>").html(results[i].category);
       // create cell2 with item name
       let tdName = $("<td>").html(results[i].name);
+      // create cell3 with remove button
+      let tdBtn = $("<td>").html(
+        '<input type="button" id="removeBtn" class="btn btn-danger" value="Remove">'
+      );
 
       // assemble cells in the row
       row.append(tdCategory);
       row.append(tdName);
+      row.append(tdBtn);
 
       // assemble row in table
       $("#listTbl").append(row);

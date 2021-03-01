@@ -122,6 +122,13 @@ function isValidMember(member) {
   return -1;
 }
 
+function isValidItem(item) {
+  if (item.category == undefined || item.category.trim() == "") return 1;
+  if (item.name == undefined || item.name.trim() == "") return 2;
+
+  return -1;
+}
+
 // ------------------------------------------------------------------------------
 // THIS CODE ALLOWS REQUESTS FOR THE PAGES THROUGH
 
@@ -149,6 +156,81 @@ app.get("/api/list", function (req, res) {
   console.log("Returned data is: ");
   console.log(data);
   res.end(JSON.stringify(data));
+});
+
+// GET CATEGORIES
+app.get("/api/categories", function (req, res) {
+  console.log("Received a GET request for categories");
+
+  let data = fs.readFileSync(__dirname + "/data/categories.json", "utf8");
+  data = JSON.parse(data);
+
+  console.log("Returned data is: ");
+  console.log(data);
+  res.end(JSON.stringify(data));
+});
+
+// GET ITEMS
+app.get("/api/item", function (req, res) {
+  console.log("Received a GET request for items");
+
+  let data = fs.readFileSync(__dirname + "/data/items.json", "utf8");
+  data = JSON.parse(data);
+
+  console.log("Returned data is: ");
+  console.log(data);
+  res.end(JSON.stringify(data));
+});
+
+// GET ALL ITEMS BY CATEGORY
+app.get("/api/items/bycategory/:category", function (req, res) {
+  let category = req.params.category;
+  console.log("Received a GET request for items in category " + category);
+
+  let data = fs.readFileSync(__dirname + "/data/items.json", "utf8");
+  data = JSON.parse(data);
+
+  //find all items by specific category
+  let matches = data.filter((i) => i.category == category);
+
+  console.log("Returned data is: ");
+  console.log(matches);
+  res.end(JSON.stringify(matches));
+});
+
+// ADD AN ITEM
+app.post("/api/items", urlencodedParser, function (req, res) {
+  console.log("Received a POST request to add an item");
+  console.log("BODY -------->" + JSON.stringify(req.body));
+
+  // assemble item information so we can validate it
+  let item = {
+    id: getNextId("item"), // assign id to item
+    category: req.body.category,
+    name: req.body.name,
+  };
+
+  console.log("Performaing validation...");
+  let errorCode = isValidItem(item);
+  if (errorCode != -1) {
+    console.log("Invalid data found! Reson: " + errorCode);
+    res.status(400).send("Bad Request - Incorrect of Missing Data");
+    return;
+  }
+
+  let data = fs.readFileSync(__dirname + "/data/items.json", "utf8");
+  data = JSON.parse(data);
+
+  // add the item
+  data.push(item);
+
+  fs.writeFileSync(__dirname + "/data/items.json", JSON.stringify(data));
+
+  console.log("Item added: ");
+  console.log(item);
+
+  //res.status(201).send();
+  res.end(JSON.stringify(item)); //return the new item w it's itemId
 });
 
 // GET ORGANIZATION

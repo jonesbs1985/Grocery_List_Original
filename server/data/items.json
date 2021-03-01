@@ -1,4 +1,6 @@
 [
   { "id": 1, "category": "Dairy", "name": "Almond Milk" },
-  { "id": 2, "category": "Produce", "name": "Green Bell Pepper" }
+  { "id": 2, "category": "Produce", "name": "Green Bell Pepper" },
+  { "id": 3, "category": "Produce", "name": "Red Bell Pepper" },
+  { "id": 4, "category": "Produce", "name": "Red Onion" }
 ]
