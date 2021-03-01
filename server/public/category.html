@@ -43,7 +43,7 @@
         <li class="nav-item">
           <a class="nav-link" href="index.html">Home</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="add.html"
             >Add Item <span class="sr-only">(current)</span></a
           >
@@ -62,44 +62,28 @@
       <div class="container mt-5">
         <!-- Form Start -->
         <form
-          id="addItemForm"
+          id="createItemForm"
           class="needs-validation form-group text-center"
           novalidate
         >
-          <h1 class="my-5">Add an Item to List</h1>
-          <!-- Category DDL Start -->
+          <h1 class="my-5">Create a Category</h1>
+          <!-- Category Name Input Start -->
           <div class="row my-5 justify-content-center">
             <label
-              for="categoryDDL"
-              class="col-sm-2 col-form-label font-weight-bold"
-              >Category:</label
+              for="newCategory"
+              class="col-sm-3 col-form-label font-weight-bold"
+              >Enter New Category Name:</label
             >
             <div class="col-md-4">
-              <select
-                name="categoryDDL"
-                id="categoryDDL"
+              <input
+                type="text"
+                id="newCategory"
                 class="form-control"
                 required
                 autofocus
-              >
-                <option value="">Select a Category</option>
-              </select>
+              />
             </div>
           </div>
-          <!-- Item DDL Start -->
-          <div class="row my-5 justify-content-center">
-            <label
-              for="itemDDL"
-              class="col-sm-2 col-form-label font-weight-bold"
-              >Item:</label
-            >
-            <div class="col-md-4">
-              <select name="itemDDL" id="itemDDL" class="form-control" required>
-                <option value="">Select an Item</option>
-              </select>
-            </div>
-          </div>
-          <!-- Buttons Start -->
           <div class="row text-center my-5">
             <div class="col">
               <!-- Submit Button -->
@@ -107,14 +91,7 @@
                 type="submit"
                 id="submitBtn"
                 class="btn btn-primary"
-                value="Add Item"
-              />
-              <!-- New Item Button -->
-              <input
-                type="button"
-                id="createItemBtn"
-                class="btn btn-info"
-                value="Create Item"
+                value="Create Category"
               />
               <!-- Cancel Button -->
               <input
@@ -150,6 +127,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="scripts/add.js"></script>
+    <script src="scripts/category.js"></script>
   </body>
 </html>

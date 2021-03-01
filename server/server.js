@@ -198,7 +198,7 @@ app.get("/api/items/bycategory/:category", function (req, res) {
   res.end(JSON.stringify(matches));
 });
 
-// ADD NEW ITEM TO items.json
+// POST REQUEST TO ADD NEW ITEM TO items.json
 app.post("/api/items", urlencodedParser, function (req, res) {
   console.log("Received a POST request to add an item");
   console.log("BODY -------->" + JSON.stringify(req.body));
@@ -220,6 +220,17 @@ app.post("/api/items", urlencodedParser, function (req, res) {
 
   let data = fs.readFileSync(__dirname + "/data/items.json", "utf8");
   data = JSON.parse(data);
+
+  // check for duplicate item
+  let matchingItem = data.find(
+    (item) => item.name.toLowerCase() == req.body.name.toLowerCase()
+  );
+  if (matchingItem != null) {
+    // item already exists
+    console.log("ERROR: Item is already on List!");
+    res.status(403).send(); // forbidden
+    return;
+  }
 
   // add the item
   data.push(item);
@@ -246,7 +257,7 @@ app.post("/api/list", urlencodedParser, function (req, res) {
     (item) => item.name.toLowerCase() == req.body.name.toLowerCase()
   );
   if (matchingItem != null) {
-    // username already exists
+    // item already exists
     console.log("ERROR: Item is already on List!");
     res.status(403).send(); // forbidden
     return;
@@ -266,40 +277,60 @@ app.post("/api/list", urlencodedParser, function (req, res) {
   res.status(200).send();
 });
 
-// GET ORGANIZATION
-app.get("/api/organizations", function (req, res) {
-  console.log("Received a GET request for all organizations");
+// POST request to add category to categories.json
+app.post("/api/category", urlencodedParser, function (req, res) {
+  console.log("Got a POST request to add a category to categories");
+  console.log("BODY -------->" + JSON.stringify(req.body));
 
-  let data = fs.readFileSync(__dirname + "/data/organizations.json", "utf8");
+  let data = fs.readFileSync(__dirname + "/data/categories.json", "utf8");
   data = JSON.parse(data);
 
-  console.log("Returned data is: ");
-  console.log(data);
-  res.end(JSON.stringify(data));
+  // check for duplicate item
+  let matchingCategory = data.find(
+    (category) => category.name.toLowerCase() == req.body.name.toLowerCase()
+  );
+  if (matchingCategory != null) {
+    // category already exists
+    console.log("ERROR: Category already exists!");
+    res.status(403).send(); // forbidden
+    return;
+  }
+
+  let category = {
+    id: getNextId("category"), // assign id to team
+    name: req.body.name,
+  };
+
+  data.push(category);
+
+  fs.writeFileSync(__dirname + "/data/categories.json", JSON.stringify(data));
+
+  console.log("New category added!");
+  console.log(category);
+  res.status(200).send();
 });
 
-// GET ALL FIGHTERS
-app.get("/api/fighters", function (req, res) {
-  console.log("Received a GET request for all fighters");
+// DELETE ITEM FROM LIST
+app.delete("/api/item/:name", function (req, res) {
+  let name = req.params.name;
+  console.log("Received a DELETE request for item " + name);
 
-  let data = fs.readFileSync(__dirname + "/data/fighters.json", "utf8");
+  let data = fs.readFileSync(__dirname + "/data/list.json", "utf8");
   data = JSON.parse(data);
 
-  console.log("Returned data is: ");
-  console.log(data);
-  res.end(JSON.stringify(data));
-});
+  // find the index number of the item in the array
+  let foundAt = data.findIndex((element) => element.name == name);
 
-// GET ALL TEAMS
-app.get("/api/teams", function (req, res) {
-  console.log("Received a GET request for all teams");
+  // delete the item if found
+  if (foundAt != -1) {
+    data.splice(foundAt, 1);
+  }
 
-  let data = fs.readFileSync(__dirname + "/data/teams.json", "utf8");
-  data = JSON.parse(data);
+  fs.writeFileSync(__dirname + "/data/list.json", JSON.stringify(data));
 
-  console.log("Returned data is: ");
-  console.log(data);
-  res.end(JSON.stringify(data));
+  console.log("Delete request processed");
+  // Note: even if we didn't find the item, send a 200 because they are gone
+  res.status(200).send();
 });
 
 // GET ONE TEAM BY ID

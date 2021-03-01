@@ -21,13 +21,9 @@ $(function () {
 
   // Connect buttons to click event handlers
   $("#submitBtn").on("click", onSubmitBtnClicked);
+  $("#addCategoryBtn").on("click", onAddCategoryBtnClicked);
   $("#cancelBtn").on("click", onCancelBtnClicked);
 });
-
-function onCancelBtnClicked() {
-  // User will be directed back to index.html
-  window.location = "index.html";
-}
 
 function onSubmitBtnClicked() {
   let itemData =
@@ -51,4 +47,14 @@ function onSubmitBtnClicked() {
       });
     });
   return false;
+}
+
+function onAddCategoryBtnClicked() {
+  // User will be directed to category.html
+  window.location = "category.html";
+}
+
+function onCancelBtnClicked() {
+  // User will be directed back to index.html
+  window.location = "index.html";
 }

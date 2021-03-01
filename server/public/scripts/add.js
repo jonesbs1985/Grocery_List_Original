@@ -24,6 +24,7 @@ $(function () {
 
   // Connect buttons to click event handlers
   $("#submitBtn").on("click", onSubmitBtnClicked);
+  $("#createItemBtn").on("click", onCreateItemBtnClicked);
   $("#cancelBtn").on("click", onCancelBtnClicked);
 });
 
@@ -109,4 +110,9 @@ function onSubmitBtnClicked() {
 function onCancelBtnClicked() {
   // User will be directed back to index.html
   window.location = "index.html";
+}
+
+function onCreateItemBtnClicked() {
+  // User will be directed to create.html
+  window.location = "create.html";
 }

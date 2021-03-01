@@ -1,4 +1,1 @@
-[
-  { "id": 1, "name": "Dairy" },
-  { "id": 2, "name": "Produce" }
-]
+[{"id":1,"name":"Dairy"},{"id":2,"name":"Produce"},{"id":3,"name":"Fruit"},{"id":4,"name":"Alcohol"}]
