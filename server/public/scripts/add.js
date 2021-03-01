@@ -54,7 +54,7 @@ function onCategoryDDLChange() {
       for (let i = 0; i < length; i++) {
         theOption = $("<option>", {
           text: results[i].name,
-          value: results[i].category,
+          value: results[i].name,
         });
 
         // Add items to itemDDL
@@ -75,7 +75,36 @@ function onCategoryDDLChange() {
   }
 }
 
-function onSubmitBtnClicked() {}
+function onSubmitBtnClicked() {
+  let itemData =
+    "name=" + $("#itemDDL").val() + "&category=" + $("#categoryDDL").val();
+
+  // take info from form and POST to items.json
+
+  $.ajax({
+    url: "api/list",
+    type: "POST",
+    data: itemData,
+  })
+    .done(function () {
+      swal({
+        title: "Success",
+        text: "Item added to List!",
+        icon: "success",
+        button: "Continue",
+      }).then(() => {
+        window.location = "index.html";
+      });
+    })
+    .fail(function () {
+      swal({
+        title: "Error",
+        text: "Item is already on List!",
+        icon: "error",
+      });
+    });
+  return false;
+}
 
 function onCancelBtnClicked() {
   // User will be directed back to index.html

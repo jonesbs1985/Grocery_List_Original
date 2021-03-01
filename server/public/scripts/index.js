@@ -3,7 +3,14 @@
 $(function () {
   // fetch list data to load table
   $.getJSON("api/list", function (results) {
-    let length = results.length;
+    let items = results;
+    items.sort(function (a, b) {
+      var textA = a.category.toUpperCase();
+      var textB = b.category.toUpperCase();
+      return textA < textB ? -1 : textA > textB ? 1 : 0;
+    });
+
+    let length = items.length;
 
     // loop through each item on list
     for (let i = 0; i < length; i++) {

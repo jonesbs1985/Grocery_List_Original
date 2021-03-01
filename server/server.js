@@ -198,7 +198,7 @@ app.get("/api/items/bycategory/:category", function (req, res) {
   res.end(JSON.stringify(matches));
 });
 
-// ADD AN ITEM
+// ADD NEW ITEM TO items.json
 app.post("/api/items", urlencodedParser, function (req, res) {
   console.log("Received a POST request to add an item");
   console.log("BODY -------->" + JSON.stringify(req.body));
@@ -231,6 +231,39 @@ app.post("/api/items", urlencodedParser, function (req, res) {
 
   //res.status(201).send();
   res.end(JSON.stringify(item)); //return the new item w it's itemId
+});
+
+// POST request to add item to list.json
+app.post("/api/list", urlencodedParser, function (req, res) {
+  console.log("Got a POST request to add an item to List");
+  console.log("BODY -------->" + JSON.stringify(req.body));
+
+  let data = fs.readFileSync(__dirname + "/data/list.json", "utf8");
+  data = JSON.parse(data);
+
+  // check for duplicate item
+  let matchingItem = data.find(
+    (item) => item.name.toLowerCase() == req.body.name.toLowerCase()
+  );
+  if (matchingItem != null) {
+    // username already exists
+    console.log("ERROR: Item is already on List!");
+    res.status(403).send(); // forbidden
+    return;
+  }
+
+  let item = {
+    name: req.body.name,
+    category: req.body.category,
+  };
+
+  data.push(item);
+
+  fs.writeFileSync(__dirname + "/data/list.json", JSON.stringify(data));
+
+  console.log("New item added!");
+  console.log(item);
+  res.status(200).send();
 });
 
 // GET ORGANIZATION
