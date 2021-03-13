@@ -1,19 +1,12 @@
 {
-  "name": "dir",
+  "name": "grocerylist-1",
   "version": "1.0.0",
   "description": "A website that allows user to create, store, and edit a grocery list",
-  "main": "index.js",
+  "main": "./public/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jonesbs1985/Grocery_List.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./app/server.js"
   },
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jonesbs1985/Grocery_List/issues"
-  },
-  "homepage": "https://github.com/jonesbs1985/Grocery_List#readme"
+  "license": "ISC"
 }
