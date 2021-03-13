@@ -401,19 +401,3 @@ app.post("/api/login", urlencodedParser, function (req, res) {
   console.log(user);
   res.end(JSON.stringify(user));
 });
-
-// ------------------------------------------------------------------------------
-// SITE SET-UP
-
-app.use(express.static("public"));
-app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  })
-);
-
-let server = app.listen(process.env.PORT || 8081, function () {
-  let port = server.address().port;
-
-  console.log("App listening at port %s", port);
-});
