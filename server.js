@@ -1,8 +1,18 @@
+let PORT = process.env.PORT || 5000;
 let express = require("express");
 let bodyParser = require("body-parser");
 let fs = require("fs");
 
 let app = express();
+
+let http = require("http");
+let server = http.Server(app);
+
+app.use(express.static("public"));
+
+server.listen(PORT, function () {
+  console.log("Grocery List server running");
+});
 
 // Create application/x-www-form-urlencoded parser
 let urlencodedParser = bodyParser.urlencoded({
