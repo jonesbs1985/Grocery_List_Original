@@ -1,4 +1,3 @@
-let PORT = process.env.PORT || 5000;
 let express = require("express");
 let bodyParser = require("body-parser");
 let fs = require("fs");
@@ -406,15 +405,15 @@ app.post("/api/login", urlencodedParser, function (req, res) {
 // ------------------------------------------------------------------------------
 // SITE SET-UP
 
-// app.use(express.static("public"));
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: false,
-//   })
-// );
+app.use(express.static("public"));
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
 
-// let server = app.listen(8081, function () {
-//   let port = server.address().port;
+let server = app.listen(process.env.PORT || 8081, function () {
+  let port = server.address().port;
 
-//   console.log("App listening at port %s", port);
-// });
+  console.log("App listening at port %s", port);
+});
