@@ -96,32 +96,6 @@ function isThereAnyGenderChangeConflicts(newGender, team)
 
 // ------ Validation helpers ------------------
 
-function isValidTeam(team) {
-  if (team.TeamName == undefined || team.TeamName.trim() == "") return 1;
-  if (team.OrganizationName == undefined || team.OrganizationName.trim() == "")
-    return 2;
-  if (team.SponsorName == undefined || team.SponsorName.trim() == "") return 3;
-  if (team.SponsorPhone == undefined || team.SponsorPhone.trim() == "")
-    return 4;
-  if (team.SponsorEmail == undefined || team.SponsorEmail.trim() == "")
-    return 5;
-  if (team.MaxTeamSize == undefined || isNaN(team.MaxTeamSize)) return 6;
-
-  return -1;
-}
-
-function isValidMember(member) {
-  if (member.MemberEmail == undefined || member.MemberEmail.trim() == "")
-    return 1;
-  if (member.MemberName == undefined || member.MemberName.trim() == "")
-    return 2;
-  if (member.UserName == undefined || member.UserName.trim() == "") return 3;
-  if (member.MemberRating == undefined || isNaN(member.MemberRating)) return 4;
-  if (member.Fighter == undefined || member.Fighter.trim() == "") return 5;
-
-  return -1;
-}
-
 function isValidItem(item) {
   if (item.category == undefined || item.category.trim() == "") return 1;
   if (item.name == undefined || item.name.trim() == "") return 2;
