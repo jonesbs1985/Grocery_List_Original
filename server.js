@@ -291,13 +291,13 @@ app.post("/api/category", urlencodedParser, function (req, res) {
     return;
   }
 
-  // check for blank item
-  let blankItem = data.find(
-    (item) => item.name.toLowerCase() == req.body.name.toLowerCase()
+  // check for duplicate item
+  let blankCategory = data.find(
+    (category) => category.name.toLowerCase() == req.body.name.toLowerCase()
   );
-  if ((blankItem = "")) {
-    // item is blank
-    console.log("ERROR: You did not select an Item!");
+  if ((blankCategory = "")) {
+    // category is blank
+    console.log("ERROR: Please enter a Category Name!");
     res.status(403).send(); // forbidden
     return;
   }
