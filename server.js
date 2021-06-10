@@ -291,6 +291,17 @@ app.post("/api/category", urlencodedParser, function (req, res) {
     return;
   }
 
+  // check for blank item
+  let blankItem = data.find(
+    (item) => item.name.toLowerCase() == req.body.name.toLowerCase()
+  );
+  if ((blankItem = "")) {
+    // item is blank
+    console.log("ERROR: You did not select an Item!");
+    res.status(403).send(); // forbidden
+    return;
+  }
+
   let category = {
     id: getNextId("category"), // assign id to team
     name: req.body.name,
