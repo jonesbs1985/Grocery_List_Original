@@ -113,6 +113,12 @@ function isValidItem(item) {
   return -1;
 }
 
+function isValidCategory(category) {
+  if (category.name == undefined || category.name.trim() == "") return 1;
+
+  return -1;
+}
+
 // ------------------------------------------------------------------------------
 // THIS CODE ALLOWS REQUESTS FOR THE PAGES THROUGH
 
@@ -233,6 +239,20 @@ app.post("/api/list", urlencodedParser, function (req, res) {
   console.log("Got a POST request to add an item to List");
   console.log("BODY -------->" + JSON.stringify(req.body));
 
+  // assemble item information so we can validate it
+  let item = {
+    name: req.body.name,
+    category: req.body.category,
+  };
+
+  console.log("Performaing validation...");
+  let errorCode = isValidItem(item);
+  if (errorCode != -1) {
+    console.log("Invalid data found! Reason: " + errorCode);
+    res.status(400).send("Bad Request - Incorrect or Missing Data");
+    return;
+  }
+
   let data = fs.readFileSync(__dirname + "/data/list.json", "utf8");
   data = JSON.parse(data);
 
@@ -246,22 +266,6 @@ app.post("/api/list", urlencodedParser, function (req, res) {
     res.status(403).send(); // forbidden
     return;
   }
-
-  // check for blank item
-  let blankItem = data.find(
-    (item) => item.name.toLowerCase() == req.body.name.toLowerCase()
-  );
-  if ((blankItem = "")) {
-    // item is blank
-    console.log("ERROR: You did not select an Item!");
-    res.status(403).send(); // forbidden
-    return;
-  }
-
-  let item = {
-    name: req.body.name,
-    category: req.body.category,
-  };
 
   data.push(item);
 
@@ -277,10 +281,24 @@ app.post("/api/category", urlencodedParser, function (req, res) {
   console.log("Got a POST request to add a category to categories");
   console.log("BODY -------->" + JSON.stringify(req.body));
 
+  // assemble category information so we can validate it
+  let category = {
+    id: getNextId("category"), // assign id to team
+    name: req.body.name,
+  };
+
+  console.log("Performaing validation...");
+  let errorCode = isValidCategory(category);
+  if (errorCode != -1) {
+    console.log("Invalid data found! Reason: " + errorCode);
+    res.status(400).send("Bad Request - Incorrect or Missing Data");
+    return;
+  }
+
   let data = fs.readFileSync(__dirname + "/data/categories.json", "utf8");
   data = JSON.parse(data);
 
-  // check for duplicate item
+  // check for duplicate category
   let matchingCategory = data.find(
     (category) => category.name.toLowerCase() == req.body.name.toLowerCase()
   );
@@ -290,22 +308,6 @@ app.post("/api/category", urlencodedParser, function (req, res) {
     res.status(403).send(); // forbidden
     return;
   }
-
-  // check for duplicate item
-  let blankCategory = data.find(
-    (category) => category.name.toLowerCase() == req.body.name.toLowerCase()
-  );
-  if ((blankCategory = "")) {
-    // category is blank
-    console.log("ERROR: Please enter a Category Name!");
-    res.status(403).send(); // forbidden
-    return;
-  }
-
-  let category = {
-    id: getNextId("category"), // assign id to team
-    name: req.body.name,
-  };
 
   data.push(category);
 
