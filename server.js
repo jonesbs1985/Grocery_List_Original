@@ -197,7 +197,7 @@ app.post("/api/items", urlencodedParser, function (req, res) {
   console.log("Performaing validation...");
   let errorCode = isValidItem(item);
   if (errorCode != -1) {
-    console.log("Invalid data found! Reson: " + errorCode);
+    console.log("Invalid data found! Reason: " + errorCode);
     res.status(400).send("Bad Request - Incorrect of Missing Data");
     return;
   }
@@ -243,6 +243,17 @@ app.post("/api/list", urlencodedParser, function (req, res) {
   if (matchingItem != null) {
     // item already exists
     console.log("ERROR: Item is already on List!");
+    res.status(403).send(); // forbidden
+    return;
+  }
+
+  // check for blank item
+  let blankItem = data.find(
+    (item) => item.name.toLowerCase() == req.body.name.toLowerCase()
+  );
+  if ((blankItem = "")) {
+    // item is blank
+    console.log("ERROR: You did not select an Item!");
     res.status(403).send(); // forbidden
     return;
   }
